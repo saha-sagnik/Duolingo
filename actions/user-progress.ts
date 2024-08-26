@@ -10,7 +10,7 @@ import { redirect } from "next/navigation";
 
 
 const usersProgress = async(courseId: number) => {
-  const {userId} = await auth();
+  const {userId} = auth();
   const user =  await currentUser();
 
   if(!userId || !user)
@@ -43,7 +43,9 @@ const usersProgress = async(courseId: number) => {
         userId,
         activeCourseId : courseId,
         userName: user.firstName || "User",
-        userImageSrc:  user.imageUrl || "/logo.svg"
+        userImageSrc:  user.imageUrl || "/logo.svg",
+        hearts: 5,
+        points: 0,
     });
 
     revalidatePath("/courses");

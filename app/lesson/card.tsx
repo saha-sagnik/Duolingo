@@ -1,8 +1,10 @@
+import { useCallback } from "react";
+
+import Image from "next/image";
+import { useAudio, useKey } from "react-use";
+
 import { challenges } from "@/db/schema";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
-import { useCallback } from "react";
-import { useAudio, useKey } from "react-use";
 
 type CardProps = {
   id: number;
@@ -28,12 +30,13 @@ export const Card = ({
   disabled,
   type,
 }: CardProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [audio, _, controls] = useAudio({ src: audioSrc || "" });
 
   const handleClick = useCallback(() => {
     if (disabled) return;
 
-    controls.play();
+    void controls.play();
     onClick();
   }, [disabled, onClick, controls]);
 
@@ -61,6 +64,7 @@ export const Card = ({
           <Image src={imageSrc} fill alt={text} />
         </div>
       )}
+
       <div
         className={cn(
           "flex items-center justify-between",

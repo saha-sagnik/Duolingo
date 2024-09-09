@@ -5,25 +5,26 @@ import { FeedWrapper } from "@/components/feed-wrapper";
 //import { Quests } from "@/components/quests";
 
 
-import { getUserProgress } from "@/db/queries";
+import { getUserProgress, getUserSubscription } from "@/db/queries";
 import UserpProgress from "@/components/UserProgress";
 import StickyWrapper from "@/components/sticky-wrapper";
 import { Items } from "./items";
+import { userSubscription } from "@/db/schema";
 
 //import { Items } from "./items";
 
 const ShopPage = async () => {
   const userProgressData = getUserProgress();
-  //const userSubscriptionData = getUserSubscription();
+  const userSubscriptionData = getUserSubscription();
 
   const [userProgress] = await Promise.all([
     userProgressData,
-    //userSubscriptionData,
+    userSubscriptionData,
   ]);
 
   if (!userProgress || !userProgress.activeCourse) redirect("/courses");
 
-  //const isPro = !!userSubscription?.isActive;
+  const isPro = !!userSubscription?.isActive;
 
   return (
     <div className="flex flex-row-reverse gap-[48px] px-6">
@@ -32,7 +33,7 @@ const ShopPage = async () => {
           activeCourse={userProgress.activeCourse}
           hearts={userProgress.hearts}
           points={userProgress.points}
-          hasActiveSubscription={false}
+          hasActiveSubscription={isPro}
         />
 
         {/* <Quests points={userProgress.points} /> */}
@@ -52,7 +53,7 @@ const ShopPage = async () => {
           <Items
             hearts={userProgress.hearts}
             points={userProgress.points}
-            hasActiveSubscription={false}
+            hasActiveSubscription={isPro}
           />
         </div>
       </FeedWrapper>
